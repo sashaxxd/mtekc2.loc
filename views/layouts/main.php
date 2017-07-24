@@ -10,7 +10,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!doctype html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" xmlns="http://www.w3.org/1999/html">
 <head>
         
     <meta charset="<?= Yii::$app->charset ?>">
@@ -38,7 +38,7 @@ AppAsset::register($this);
                         <div class="row">
                             <div class="col-1">
                                 <div id="mtex_Text2">
-                                    <span id="mtex_uid0">ТКАНИ наполнители в Волгограде, Мтекс.РФ, улица Германа Титова, 20, Волгоград, Россия </span><span id="mtex_uid1"><br></span><span id="mtex_uid2"><strong>Viber +79375542095&nbsp;&nbsp; WhatsApp +79054333533</strong></span>
+                                    <span id="mtex_uid0"><strong>ТКАНИ наполнители в Волгограде</strong>, Мтекс.РФ, улица Германа Титова, 20, Волгоград, Россия </span><span id="mtex_uid1"><br></span><span id="mtex_uid2"><strong>Viber +79375542095&nbsp;&nbsp; WhatsApp +79054333533</strong></span>
                                 </div>
                             </div>
                         </div>

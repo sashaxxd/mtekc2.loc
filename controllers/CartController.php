@@ -9,28 +9,10 @@
 namespace app\controllers;
 use app\models\Product;
 use app\models\Cart;
+use app\models\Order;
+use app\models\Orderitems;
 use Yii;
 
-/*Array
-(
-    [1] => Array
-    (
-        [qty] => QTY
-        [name] => NAME
-        [price] => PRICE
-        [img] => IMG
-    )
-    [10] => Array
-    (
-        [qty] => QTY
-        [name] => NAME
-        [price] => PRICE
-        [img] => IMG
-    )
-)
-    [qty] => QTY,
-    [sum] => SUM
-);*/
 
 class CartController extends AppController{
 
@@ -85,7 +67,43 @@ class CartController extends AppController{
     }
 
     public function actionView(){
-        return $this->render('view');
+        $session =Yii::$app->session;
+        $session->open();
+        $this->setMeta('Корзина');
+        $order = new Order();
+         if($order->load(Yii::$app->request->post())){
+            $order->qty = $session['cart.qty'];
+             $order->sum = $session['cart.sum'];
+             if($order->save()){
+                 $this->saveOrderItems($session['cart'], $order->id);
+                     Yii::$app->session->setFlash('success', 'Заказ принят');
+                 $session->remove('cart');
+                 $session->remove('cart.qty');
+                 $session->remove('cart.sum');
+                 return $this->refresh();
+             }
+             else{
+                     Yii::$app->session->setFlash('error', 'Ошибка');
+             }
+         }
+        return $this->render('view',[
+            'session' => $session,
+            'order' => $order,
+        ]);
+    }
+
+    protected function saveOrderItems($items, $order_id){
+             foreach ($items as $id => $item ){
+                 $order_items = new Orderitems();
+                 $order_items->order_id = $order_id;
+                 $order_items->product_id = $id;
+                 $order_items->name = $item['name'];
+                 $order_items->article = $item['article'];
+                 $order_items->price = $item['price'];
+                 $order_items->qty_item = $item['qty'];
+                 $order_items->sum_item = $item['qty'] * $item['price'];
+                 $order_items->save();
+             }
     }
 
 }
